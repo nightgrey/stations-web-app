@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Autocomplete from 'react-autocomplete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/pro-regular-svg-icons';
+import Router from 'next/router'
 
 import { getStations, getStationById } from '../data/stations';
 
@@ -39,6 +40,11 @@ class Search extends React.Component {
    */
   onSelect = (value, station) => {
     this.setState({ value, selectedStation: station });
+
+    Router.push({
+      pathname: '/station',
+      query: { id: station.id }
+    })
   };
 
   /**
@@ -52,9 +58,6 @@ class Search extends React.Component {
 
   render() {
     const { value, selectedStation } = this.state;
-
-    if (selectedStation !== null) {
-    }
 
     return (
       <React.Fragment>
