@@ -13,6 +13,6 @@ const Home = () => (
       <Search />
     </Header>
   </div>
-)
+);
 
-export default Home
+export default Home;

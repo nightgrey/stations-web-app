@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Autocomplete from 'react-autocomplete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/pro-regular-svg-icons';
@@ -65,10 +64,11 @@ class Search extends React.Component {
         <Autocomplete
           getItemValue={station => station.stop}
           items={getStations()}
+
           renderItem={(station, isHighlighted) => (
             <div
               key={station.id}
-              style={{ background: isHighlighted ? 'lightgray' : 'white' }}
+              style={{ background: isHighlighted ? 'lightgray' : 'white', cursor: 'pointer' }}
             >
               {station.stop}
               {station.platform ? ` - ${station.platform}` : null}
