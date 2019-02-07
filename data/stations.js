@@ -1,3 +1,5 @@
+import { isNumber, isString, toNumber } from 'lodash';
+
 const stations = [
   { stop: 'Weststadt', platform: '', id: 4304 },
   { stop: 'Bürgeramt', platform: 'Westbahnhof / Schloßberg', id: 1101 },
@@ -547,11 +549,12 @@ const stations = [
   { stop: 'Unterjesingen Süd', platform: 'Hauptbahnhof', id: 520104 },
 ];
 
-export const getStationById = id => getStations().filter(station => station.id === Number(id))[0];
+export const getStationById = id => {
+  if(!isNumber(id) && !isString(id)) {
+    throw new Error(`The given argument id ("${id}") is not a number or a string.`);
+  }
+
+  return getStations().filter(station => station.id === toNumber(id))[0];
+};
 
 export const getStations = () => stations;
-
-export default {
-  getStationById,
-  getStations,
-};

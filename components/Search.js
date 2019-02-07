@@ -3,8 +3,9 @@ import Autocomplete from 'react-autocomplete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/pro-regular-svg-icons';
 import Router from 'next/router'
+import { rhythm, gray } from "../utilities/styles";
 
-import { getStations, getStationById } from '../data/stations';
+import { getStations } from '../data/stations';
 
 class Search extends React.Component {
   constructor(props) {
@@ -59,8 +60,11 @@ class Search extends React.Component {
     const { value, selectedStation } = this.state;
 
     return (
-      <React.Fragment>
-        <FontAwesomeIcon icon={faSearch} />
+      <span css={`
+        border: 1px solid ${gray(80)};
+        background: #fff;
+        padding: ${rhythm(0.25)} ${rhythm(0.5)}
+      `}>
         <Autocomplete
           getItemValue={station => station.stop}
           items={getStations()}
@@ -78,8 +82,16 @@ class Search extends React.Component {
           value={value}
           onChange={this.onChange}
           onSelect={this.onSelect}
+          inputProps={{
+            style: {
+              border: 'none',
+              background: 'none',
+              outline: 'none'
+            }
+          }}
         />
-      </React.Fragment>
+        <FontAwesomeIcon icon={faSearch} />
+      </span>
     );
   }
 }
