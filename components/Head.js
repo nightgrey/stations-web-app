@@ -1,6 +1,8 @@
-import React from 'react'
-import NextHead from 'next/head'
-import { string } from 'prop-types'
+import React from 'react';
+import NextHead from 'next/head';
+import { string } from 'prop-types';
+import { typography } from '../utilities/styles';
+import { TypographyStyle, GoogleFont } from 'react-typography';
 
 const defaultDescription = ''
 const defaultOGURL = ''
@@ -31,6 +33,8 @@ const Head = props => (
     <meta property="og:image" content={props.ogImage || defaultOGImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <TypographyStyle typography={typography} />
+    <GoogleFont typography={typography} />
   </NextHead>
 )
 

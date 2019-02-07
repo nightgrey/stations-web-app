@@ -12,6 +12,7 @@ const Home = () => (
     <Header>
       <Search />
     </Header>
+    <p>Lorem ipsum si dolora met ...<a href="">bla</a></p>
   </div>
 );
 
