@@ -2,8 +2,8 @@ import React from 'react';
 import Autocomplete from 'react-autocomplete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/pro-regular-svg-icons';
-import Router from 'next/router'
-import { rhythm, gray } from "../utilities/styles";
+import Router from 'next/router';
+import { rhythm, gray } from '../utilities/styles';
 
 import { getStations } from '../data/stations';
 
@@ -43,8 +43,8 @@ class Search extends React.Component {
 
     Router.push({
       pathname: '/station',
-      query: { id: station.id }
-    })
+      query: { id: station.id },
+    });
   };
 
   /**
@@ -86,8 +86,8 @@ class Search extends React.Component {
             style: {
               border: 'none',
               background: 'none',
-              outline: 'none'
-            }
+              outline: 'none',
+            },
           }}
         />
         <FontAwesomeIcon icon={faSearch} />

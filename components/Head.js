@@ -1,17 +1,22 @@
 import React from 'react';
 import NextHead from 'next/head';
-import { string } from 'prop-types';
-import { typography } from '../utilities/styles';
+import PropTypes from 'prop-types';
 import { TypographyStyle, GoogleFont } from 'react-typography';
 
-const defaultDescription = ''
-const defaultOGURL = ''
-const defaultOGImage = ''
+import { typography } from '../utilities/styles';
+
+const defaultTitleSuffix = 'Stations';
+const defaultDescription = '';
+const defaultOGURL = '';
+const defaultOGImage = '';
 
 const Head = props => (
   <NextHead>
     <meta charSet="UTF-8" />
-    <title>{props.title || ''}</title>
+    <title>
+      {props.title ? `${props.title} - ` : null}
+      {props.titleSuffix ? props.titleSuffix : defaultTitleSuffix}
+    </title>
     <meta
       name="description"
       content={props.description || defaultDescription}
@@ -36,13 +41,14 @@ const Head = props => (
     <TypographyStyle typography={typography} />
     <GoogleFont typography={typography} />
   </NextHead>
-)
+);
 
 Head.propTypes = {
-  title: string,
-  description: string,
-  url: string,
-  ogImage: string
-}
+  title: PropTypes.string,
+  titleSuffix: PropTypes.string,
+  description: PropTypes.string,
+  url: PropTypes.string,
+  ogImage: PropTypes.string,
+};
 
-export default Head
+export default Head;

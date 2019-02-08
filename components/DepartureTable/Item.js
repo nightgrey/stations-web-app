@@ -13,7 +13,11 @@ export default class Item extends React.Component {
 
     return (
       <div>
-        {line} {direction} {departure}
+        {line}
+        {' '}
+        {direction}
+        {' '}
+        {departure}
       </div>
     );
   }

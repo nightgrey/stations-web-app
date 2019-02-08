@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { rhythm, gray } from '../utilities/styles';
 
-export default (props) => (
+export default props => (
   <FontAwesomeIcon
     icon={faBus}
     css={`

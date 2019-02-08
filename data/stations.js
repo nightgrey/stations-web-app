@@ -549,8 +549,8 @@ const stations = [
   { stop: 'Unterjesingen Süd', platform: 'Hauptbahnhof', id: 520104 },
 ];
 
-export const getStationById = id => {
-  if(!isNumber(id) && !isString(id)) {
+export const getStationById = (id) => {
+  if (!isNumber(id) && !isString(id)) {
     throw new Error(`The given argument id ("${id}") is not a number or a string.`);
   }
 
