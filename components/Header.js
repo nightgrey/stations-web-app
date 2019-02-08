@@ -10,6 +10,6 @@ export default ({ children, ...other }) => (
     border-bottom: 1px solid ${gray(95)};
     padding: ${rhythm(1)};
   `} {...other}>
-    <Logo css={`color: red;`} /> {children}
+    <Logo css={`color: #fff`} /> {children}
   </header>
 );
