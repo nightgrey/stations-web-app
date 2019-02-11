@@ -4,7 +4,7 @@ const scrapeIt = require('scrape-it');
 
 const config = require('../shared/config');
 
-const getDepartureTime = async (req, res) => {
+const getDepartureTimes = async (req, res) => {
     const { id } = await json(req);
     const url = `${config.departureTimesUrl}?halt=${id}`;
 
@@ -36,4 +36,4 @@ const getDepartureTime = async (req, res) => {
     }
 }
 
-module.exports = (req, res) => run(req, res, getDepartureTime);
+module.exports = (req, res) => run(req, res, getDepartureTimes);
