@@ -3,65 +3,66 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'next/router';
 import { addMinutes, getTime } from 'date-fns';
 import { generate as shortid } from 'shortid';
-import Head from '../components/Head';
+import fetch from 'isomorphic-unfetch';
 
+import Head from '../components/Head';
 import Header from '../components/Header';
 import Container from '../components/Container';
 import DepartureTable from '../components/DepartureTable';
 
 import { getStationById, getStations } from '../data/stations';
 
-const mockDepartureData = [
-  {
-    id: shortid(),
-    line: Math.floor(Math.random() * 10) + 1,
-    direction: 'Beispiel',
-    departure: getTime(addMinutes(new Date(), Math.floor(Math.random() * 30) + 1)),
-  },
-  {
-    id: shortid(),
-    line: Math.floor(Math.random() * 10) + 1,
-    direction: 'Beispiel',
-    departure: getTime(addMinutes(new Date(), Math.floor(Math.random() * 30) + 1)),
-  },
-  {
-    id: shortid(),
-    line: Math.floor(Math.random() * 10) + 1,
-    direction: 'Beispiel',
-    departure: getTime(addMinutes(new Date(), Math.floor(Math.random() * 30) + 1)),
-  },
-  {
-    id: shortid(),
-    line: Math.floor(Math.random() * 10) + 1,
-    direction: 'Beispiel',
-    departure: getTime(addMinutes(new Date(), Math.floor(Math.random() * 30) + 1)),
-  },
-  {
-    id: shortid(),
-    line: Math.floor(Math.random() * 10) + 1,
-    direction: 'Beispiel',
-    departure: getTime(addMinutes(new Date(), Math.floor(Math.random() * 30) + 1)),
-  },
-  {
-    id: shortid(),
-    line: Math.floor(Math.random() * 10) + 1,
-    direction: 'Beispiel',
-    departure: getTime(addMinutes(new Date(), Math.floor(Math.random() * 30) + 1)),
-  },
-];
+class Station extends React.Component {
 
-const Station = ({ router: { query: { id } } }) => (
-  <div>
-    <Head title={getStationById(id).stop} />
-    <Header>
-      {getStationById(id).stop}
-    </Header>
-    <DepartureTable departureData={mockDepartureData} />
-  </div>
-);
+  static getInitialProps = async (ctx) => {
+    const { req, query: { id } } = ctx;
+    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
 
-Station.propTypes = {
-  router: PropTypes.object.isRequired,
-};
+    // TODO: https://github.com/zeit/next.js/blob/canary/examples/with-cookie-auth/www/pages/profile.js#L46
+    const apiUrl = `${protocol}://localhost:3001/api/getDepartureTimes.js`;
+
+    const redirectOnError = () => process.browser
+      ? Router.push('/login')
+      : ctx.res.writeHead(301, { Location: '/login' });
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        body: JSON.stringify({ id }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        return response.json();
+      } else {
+        // https://github.com/developit/unfetch#caveats
+        return redirectOnError();
+      }
+    } catch (error) {
+      // Implementation or Network error
+      return redirectOnError();
+    }
+  }
+
+  propTypes = {
+    router: PropTypes.object.isRequired,
+  };
+
+  render() {
+    const { router: { query: { id } } } = this.props;
+
+    return (
+      <div>
+        <Head title={getStationById(id).stop} />
+        <Header>
+          {getStationById(id).stop}
+        </Header>
+        
+      </div>
+    );
+  }
+}
 
 export default withRouter(Station);
