@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'next/router';
+import Router, { withRouter } from 'next/router';
 import { addMinutes, getTime } from 'date-fns';
 import { generate as shortid } from 'shortid';
 import fetch from 'isomorphic-unfetch';
