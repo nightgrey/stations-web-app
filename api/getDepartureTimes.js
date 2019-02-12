@@ -1,4 +1,5 @@
 const { json, send, createError, run } = require('micro');
+const cors = require('micro-cors')({ origin: '*' });
 const fetch = require('isomorphic-unfetch');
 const scrapeIt = require('scrape-it');
 
@@ -25,7 +26,7 @@ const getDepartureTimes = async (req, res) => {
                 },
             },
         }).then(({ data, response }) => {
-            if (response.statusCode != 200) {
+            if (response.statusCode !== 200) {
                 send(res, 200, data.departures);
             } else {
                 send(res, response.statusCode, response.statusText);
@@ -34,6 +35,6 @@ const getDepartureTimes = async (req, res) => {
     } catch (error) {
         throw createError(error.statusCode, error.statusText);
     }
-}
+};
 
 module.exports = (req, res) => run(req, res, getDepartureTimes);

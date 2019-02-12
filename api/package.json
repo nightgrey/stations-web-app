@@ -7,11 +7,10 @@
         "scrape-it": "^5.1.4"
     },
     "devDependencies": {
-        "micro-dev": "^3.0.0",
-        "nodemon": "^1.18.10"
+        "micro-dev": "^3.0.0"
     },
     "scripts": {
-        "start": "nodemon -x micro",
-        "dev": "nodemon -x micro-dev . -p 3001"
+        "start": "micro",
+        "dev": "micro-dev . -p 3001"
     }
 }

@@ -10,7 +10,7 @@ import Header from '../components/Header';
 import Container from '../components/Container';
 import DepartureTable from '../components/DepartureTable';
 
-import { getStationById, getStations } from '../data/stations';
+import { getStationById } from '../data/stations';
 
 class Station extends React.Component {
 
@@ -22,13 +22,15 @@ class Station extends React.Component {
     const apiUrl = `${protocol}://localhost:3001/api/getDepartureTimes.js`;
 
     const redirectOnError = () => process.browser
-      ? Router.push('/login')
-      : ctx.res.writeHead(301, { Location: '/login' });
+      ? Router.push('/')
+      : ctx.res.writeHead(301, { Location: '/' });
 
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({
+          id: id,
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -44,7 +46,7 @@ class Station extends React.Component {
       // Implementation or Network error
       return redirectOnError();
     }
-  }
+  };
 
   propTypes = {
     router: PropTypes.object.isRequired,
