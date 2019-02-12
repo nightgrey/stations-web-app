@@ -1,14 +1,14 @@
 const { json, send, createError, run } = require('micro');
-const cors = require('micro-cors')({ origin: '*' });
 const fetch = require('isomorphic-unfetch');
+const cors = require('micro-cors')({ allowMethods: ['POST'], origin: '*' })
 const scrapeIt = require('scrape-it');
 
 const config = require('../shared/config');
 
 const getDepartureTimes = async (req, res) => {
     const { id } = await json(req);
-    const url = `${config.departureTimesUrl}?halt=${id}`;
-
+    const url = `${config.departureTimesUrl}?halt=23`;
+ 
     try {
         scrapeIt(url, {
             departures: {
@@ -26,15 +26,19 @@ const getDepartureTimes = async (req, res) => {
                 },
             },
         }).then(({ data, response }) => {
-            if (response.statusCode !== 200) {
-                send(res, 200, data.departures);
+            if (response.statusCode === 200) {
+                if(data.departures.length) {
+                    send(res, 200, data.departures);
+                } else {
+                    send(res, 200, { error: "There are no departures scheduled currently." });
+                }
             } else {
                 send(res, response.statusCode, response.statusText);
             }
-        });
+        }).catch(() => send(res, 200, { error: "Departure server unavailable. "}))
     } catch (error) {
         throw createError(error.statusCode, error.statusText);
     }
 };
 
-module.exports = (req, res) => run(req, res, getDepartureTimes);
+module.exports = (req, res) => run(req, res, cors(getDepartureTimes));

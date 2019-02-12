@@ -28,8 +28,10 @@ class Station extends React.Component {
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
+        cache: 'no-cache',
+        mode: 'no-cors',
         body: JSON.stringify({
-          id: id,
+          id,
         }),
         headers: {
           'Content-Type': 'application/json',
