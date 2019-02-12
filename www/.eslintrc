@@ -9,6 +9,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-closing-bracket-location": 0,
     "jsx-a11y/anchor-is-valid": "off",
+    "no-confusing-arrow": "off"
   },
   "globals": {
     "fetch": false,
