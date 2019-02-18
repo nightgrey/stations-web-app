@@ -13,24 +13,13 @@ import DepartureTable from '../components/DepartureTable';
 import { getStationById } from '../data/stations';
 
 class Station extends React.Component {
-
   static getInitialProps = async (ctx) => {
-    const { req, query: { id } } = ctx;
-    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-
-    // TODO: https://github.com/zeit/next.js/blob/canary/examples/with-cookie-auth/www/pages/profile.js#L46
-    const apiUrl = `${protocol}://localhost:3001/api/getDepartureTimes.js`;
-
-    const redirectOnError = () => process.browser
-      ? Router.push('/')
-      : ctx.res.writeHead(301, { Location: '/' });
+    const { query: { id } } = ctx;
 
     try {
-      const response = await fetch(apiUrl, {
+      const response = await fetch('http://localhost:3001', {
         method: 'POST',
         cache: 'no-cache',
-        // @TODO: Get CORS to work in the best case.
-        mode: 'no-cors',
         body: JSON.stringify({
           id,
         }),
@@ -41,13 +30,12 @@ class Station extends React.Component {
 
       if (response.ok) {
         return response.json();
-      } else {
-        // https://github.com/developit/unfetch#caveats
-        return redirectOnError();
       }
+
+      return { error: 'No departures available.' };
     } catch (error) {
       // Implementation or Network error
-      return redirectOnError();
+      return { error: 'Unknown error occured.' }; 
     }
   };
 
@@ -56,7 +44,7 @@ class Station extends React.Component {
   };
 
   render() {
-    const { router: { query: { id } } } = this.props;
+    const { router: { query: { id } }, departures, error } = this.props;
 
     return (
       <div>
@@ -64,7 +52,11 @@ class Station extends React.Component {
         <Header>
           {getStationById(id).stop}
         </Header>
-        
+        {error ? (
+          <span>{error}</span>
+        ) : (
+            <DepartureTable departures={departures} />
+        )}
       </div>
     );
   }

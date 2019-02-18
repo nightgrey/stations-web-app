@@ -6,7 +6,7 @@ import deLocale from 'date-fns/locale/de';
 
 import { rhythm } from '../utilities/styles';
 
-const DepartureTable = ({ departureData }) => (
+const DepartureTable = ({ departures }) => (
   <React.Fragment>
     <Flex flexDirection="column">
       <Flex css={`border-bottom: 1px solid`} flexWrap="wrap">
@@ -21,7 +21,7 @@ const DepartureTable = ({ departureData }) => (
         </Box>
       </Flex>
       <React.Fragment>
-        {departureData.map((oneDeparture, index) => (
+        {departures.map((oneDeparture, index) => (
           <Flex css={`
             border-bottom: 1px solid;
           `} key={oneDeparture.id}>
