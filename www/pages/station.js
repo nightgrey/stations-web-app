@@ -29,6 +29,7 @@ class Station extends React.Component {
       const response = await fetch(apiUrl, {
         method: 'POST',
         cache: 'no-cache',
+        // @TODO: Get CORS to work in the best case.
         mode: 'no-cors',
         body: JSON.stringify({
           id,

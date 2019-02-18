@@ -7,7 +7,7 @@ const config = require('../shared/config');
 
 const getDepartureTimes = async (req, res) => {
     const { id } = await json(req);
-    const url = `${config.departureTimesUrl}?halt=23`;
+    const url = `${config.departureTimesUrl}?halt=${id}`;
  
     try {
         scrapeIt(url, {

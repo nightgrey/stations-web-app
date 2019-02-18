@@ -68,7 +68,6 @@ class Search extends React.Component {
         <Autocomplete
           getItemValue={station => station.stop}
           items={getStations()}
-
           renderItem={(station, isHighlighted) => (
             <div
               key={station.id}
