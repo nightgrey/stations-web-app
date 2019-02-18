@@ -3,19 +3,21 @@ import Link from 'next/link';
 import Head from '../components/Head';
 
 import Header from '../components/Header';
+import FullViewport from '../components/FullViewport';
 import Search from '../components/Search';
+import { colors } from '../utilities/styles';
 
 const Home = () => (
   <div>
     <Head title="Home" />
-
-    <Header>
+    <FullViewport css={`
+      background: ${colors.primary};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `}>
       <Search />
-    </Header>
-    <p>
-Lorem ipsum si dolora met ...
-      <a href="">bla</a>
-    </p>
+    </FullViewport>
   </div>
 );
 
