@@ -3,8 +3,8 @@ import Autocomplete from 'react-autocomplete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/pro-regular-svg-icons';
 import Router from 'next/router';
-import { rhythm, gray } from '../utilities/styles';
 
+import { rhythm, gray } from '../utilities/styles';
 import { getStations } from '../data/stations';
 
 class Search extends React.Component {
@@ -57,13 +57,19 @@ class Search extends React.Component {
     || station.platform.toLowerCase().indexOf(value.toLowerCase()) !== -1;
 
   render() {
-    const { value, selectedStation } = this.state;
+    const { value } = this.state;
 
     return (
-      <span css={`
-        border: 1px solid ${gray(80)};
-        background: #fff;
-        padding: ${rhythm(0.25)} ${rhythm(0.5)}
+      <span
+        css={`
+          border: 1px solid ${gray(80)};
+          border-radius: 4px;
+          box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+          background: #fff;
+          padding: ${rhythm(0.25)} 0;
+          padding-right: ${rhythm(0.5)};
+          font-size: 25px;
+          position: static;
       `}>
         <Autocomplete
           getItemValue={station => station.stop}
@@ -86,6 +92,7 @@ class Search extends React.Component {
               border: 'none',
               background: 'none',
               outline: 'none',
+              padding: `0 ${rhythm(0.5)}`,
             },
           }}
         />
