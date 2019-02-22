@@ -35,12 +35,19 @@ class Station extends React.Component {
       return { error: 'No departures available.' };
     } catch (error) {
       // Implementation or Network error
-      return { error: 'Unknown error occured.' }; 
+      return { error: 'Could not connect to the departure server.' };
     }
   };
 
   propTypes = {
     router: PropTypes.object.isRequired,
+    departures: PropTypes.arrayOf(PropTypes.object),
+    error: PropTypes.string,
+  };
+
+  defaultProps = {
+    departures: [],
+    error: null,
   };
 
   render() {
@@ -55,7 +62,7 @@ class Station extends React.Component {
         {error ? (
           <span>{error}</span>
         ) : (
-            <DepartureTable departures={departures} />
+          <DepartureTable departures={departures} />
         )}
       </div>
     );
