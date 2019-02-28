@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Router, { withRouter } from 'next/router';
+import { withRouter } from 'next/router';
 import { addMinutes, getTime } from 'date-fns';
 import { generate as shortid } from 'shortid';
 import fetch from 'isomorphic-unfetch';
@@ -10,19 +10,25 @@ import Header from '../components/Header';
 import Container from '../components/Container';
 import DepartureTable from '../components/DepartureTable';
 
-import { getStationById } from '../data/stations';
+import { getStationById, getStations } from '../data/stations';
 
 class Station extends React.Component {
+
   static getInitialProps = async (ctx) => {
-    const { query: { id } } = ctx;
+    const { req, query: { id } } = ctx;
+    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+
+    // TODO: https://github.com/zeit/next.js/blob/canary/examples/with-cookie-auth/www/pages/profile.js#L46
+    const apiUrl = `${protocol}://localhost:3001/api/getDepartureTimes.js`;
+
+    const redirectOnError = () => process.browser
+      ? Router.push('/login')
+      : ctx.res.writeHead(301, { Location: '/login' });
 
     try {
-      const response = await fetch('http://localhost:3001', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
-        cache: 'no-cache',
-        body: JSON.stringify({
-          id,
-        }),
+        body: JSON.stringify({ id }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -30,28 +36,22 @@ class Station extends React.Component {
 
       if (response.ok) {
         return response.json();
-      }
-
-      return { error: 'No departures available.' };
+      } 
+        // https://github.com/developit/unfetch#caveats
+        return redirectOnError();
+      
     } catch (error) {
       // Implementation or Network error
-      return { error: 'Could not connect to the departure server.' };
+      return redirectOnError();
     }
-  };
+  }
 
   propTypes = {
     router: PropTypes.object.isRequired,
-    departures: PropTypes.arrayOf(PropTypes.object),
-    error: PropTypes.string,
-  };
-
-  defaultProps = {
-    departures: [],
-    error: null,
   };
 
   render() {
-    const { router: { query: { id } }, departures, error } = this.props;
+    const { router: { query: { id } } } = this.props;
 
     return (
       <div>
@@ -59,11 +59,7 @@ class Station extends React.Component {
         <Header>
           {getStationById(id).stop}
         </Header>
-        {error ? (
-          <span>{error}</span>
-        ) : (
-          <DepartureTable departures={departures} />
-        )}
+
       </div>
     );
   }
